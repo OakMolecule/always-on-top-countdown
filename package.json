@@ -27,7 +27,8 @@
     },
 
     "linux": {
-      "target": ["AppImage", "deb"]
+      "target": ["AppImage", "deb"],
+      "maintainer": "AlwaysOnTopCountdown <vpasfd@139.com>"
     },
 
     "publish": [
