@@ -18,6 +18,35 @@ let timer = null;
 let running = false;
 let lastSet = 0;
 
+function normalizeInputs() {
+  let m = parseInt(inputMin.value || '0', 10);
+  let s = parseInt(inputSec.value || '0', 10);
+
+  if (isNaN(m)) m = 0;
+  if (isNaN(s)) s = 0;
+
+  if (s >= 60) {
+    m += Math.floor(s / 60);
+    s = s % 60;
+  }
+
+  if (s < 0) {
+    const need = Math.ceil(Math.abs(s) / 60);
+    if (m >= need) {
+      m -= need;
+      s += need * 60;
+    } else {
+      m = 0;
+      s = 0;
+    }
+  }
+
+  if (m < 0) m = 0;
+
+  inputMin.value = String(m);
+  inputSec.value = String(s);
+}
+
 function formatTime(sec) {
   const m = Math.floor(sec / 60).toString().padStart(2, '0');
   const s = Math.floor(sec % 60).toString().padStart(2, '0');
@@ -97,13 +126,23 @@ inputMin.addEventListener('change', (e) => {
 });
 
 inputSec.addEventListener('change', (e) => {
+  normalizeInputs();
   remaining = computeTotalSeconds();
   lastSet = remaining;
 
   updateDisplay();
 });
 
+// 使用上下箭头时也实时进位 / 借位，并更新显示
+inputSec.addEventListener('input', (e) => {
+  normalizeInputs();
+  remaining = computeTotalSeconds();
+  lastSet = remaining;
+  updateDisplay();
+});
+
 startBtn.addEventListener('click', () => {
+  normalizeInputs();
   const m = Math.max(0, parseInt(inputMin.value || '0', 10));
   const s = Math.max(0, parseInt(inputSec.value || '0', 10));
   totalSeconds = m * 60 + s;
