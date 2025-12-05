@@ -1,0 +1,17 @@
+{
+  "name": "always-on-top-countdown",
+  "version": "1.0.0",
+  "description": "Cross-platform always-on-top countdown timer (Electron)",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . countdown --platform=darwin,win32 --arch=x64 --overwrite"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^29.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}

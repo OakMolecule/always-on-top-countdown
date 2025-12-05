@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>倒计时器（置顶）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="drag">
+    <div class="controls no-drag">
+      <input id="input-min" type="number" placeholder="分钟" min="0" />
+      <input id="input-sec" type="number" placeholder="秒" min="0" max="59" />
+      <button id="start-btn">开始</button>
+      <button id="pause-btn">暂停</button>
+      <button id="reset-btn">重置</button>
+      <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
+      <button id="hide-btn">隐藏</button>
+    </div>
+
+    <div id="display" class="time no-drag">00:00</div>
+
+    <div class="window-actions no-drag">
+      <button id="always-btn">切换置顶</button>
+      <button id="min-btn">最小化</button>
+      <button id="close-btn">隐藏</button>
+    </div>
+  </div>
+
+  <audio id="alarm">
+    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAAAB3AQACABAAZGF0YQAAAAA=" type="audio/wav">
+  </audio>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
+
