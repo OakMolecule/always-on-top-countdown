@@ -31,10 +31,6 @@
       "maintainer": "AlwaysOnTopCountdown <vpasfd@139.com>"
     },
 
-    "publish": [
-      {
-        "provider": "github"
-      }
-    ]
+    "publish": "never"
   }
 }
