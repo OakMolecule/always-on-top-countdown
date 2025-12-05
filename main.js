@@ -9,16 +9,19 @@ function createWindow() {
     height: 300,
     minWidth: 360,
     minHeight: 240,
-    frame: false,       // 无窗口边框
-    transparent: true,  // 透明背景（mac & windows 支持有限）
-    alwaysOnTop: true,  // 始终置顶
+    frame: false,           // 无窗口边框
+    transparent: true,      // 透明背景（mac & windows 支持有限）
+    alwaysOnTop: true,      // 始终置顶
     skipTaskbar: false,
     resizable: true,
+    maximizable: false,     // 禁用最大化（包括双击标题栏）
+    fullscreenable: false,  // 禁用全屏
     icon: path.join(__dirname, 'logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,
-      contextIsolation: true
+      contextIsolation: true,
+      webSecurity: true,
     },
     // mac 特性：使其能在所有桌面空间显示
     titleBarStyle: 'hidden',
@@ -32,7 +35,7 @@ function createWindow() {
   win.loadFile('index.html');
 
   // 可选：开发者工具
-  // win.webContents.openDevTools({mode: 'detach'});
+  win.webContents.openDevTools({mode: 'detach'});
 
   win.on('closed', () => {
     win = null;

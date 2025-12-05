@@ -11,13 +11,13 @@
 
 <body>
   <div id="app" class="drag">
-    <div class="top-bar no-drag">
+    <div class="top-bar">
       <div class="window-actions">
         <button id="always-btn" class="icon-btn" title="切换置顶">📌</button>
         <button id="min-btn" class="icon-btn" title="最小化">▁</button>
         <button id="quit-btn" class="icon-btn" title="退出应用">✕</button>
       </div>
-      <button id="settings-btn">⚙ 设置</button>
+      <button id="settings-btn" class="no-drag">⚙ 设置</button>
     </div>
 
     <div id="display" class="time no-drag">00:00</div>
@@ -39,6 +39,7 @@
           <input id="input-min" type="number" placeholder="分钟" min="0" />
           <input id="input-sec" type="number" placeholder="秒" />
           <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
+          <label><input id="show-quit-btn" type="checkbox" checked> 显示关闭按钮</label>
         </div>
 
         <div class="setting-row">

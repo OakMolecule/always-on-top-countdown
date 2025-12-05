@@ -5,6 +5,7 @@ const toggleBtn = document.getElementById('toggle-btn');
 const display = document.getElementById('display');
 const alarm = document.getElementById('alarm');
 const clickThrough = document.getElementById('click-through');
+const showQuitBtn = document.getElementById('show-quit-btn');
 const alwaysBtn = document.getElementById('always-btn');
 const minBtn = document.getElementById('min-btn');
 const quitBtn = document.getElementById('quit-btn');
@@ -212,6 +213,23 @@ clickThrough.addEventListener('change', (e) => {
   }
 });
 
+showQuitBtn.addEventListener('change', (e) => {
+  if (e.target.checked) {
+    quitBtn.style.display = '';
+    minBtn.style.display = '';
+    alwaysBtn.style.display = '';
+  } else {
+    quitBtn.style.display = 'none';
+    minBtn.style.display = 'none';
+    alwaysBtn.style.display = 'none';
+  }
+
+  try {
+    localStorage.setItem('show-quit-btn', e.target.checked ? '1' : '0');
+  } catch (err) {
+  }
+});
+
 alwaysBtn.addEventListener('click', () => {
   if (window.electronAPI && window.electronAPI.windowAction) {
     window.electronAPI.windowAction('toggle-always-on-top');
@@ -241,7 +259,7 @@ settingsCloseBtn.addEventListener('click', () => {
   settingsOverlay.classList.add('hidden');
 });
 
-// 点击遮罩空白处也关闭
+// 点击遮罩空白处也关闭（但不包括设置卡片）
 settingsOverlay.addEventListener('click', (e) => {
   if (e.target === settingsOverlay) {
     settingsOverlay.classList.add('hidden');
@@ -314,6 +332,16 @@ try {
   }
 } catch (e) {
   applyBgOpacity(55);
+}
+
+// 初始化关闭按钮显示状态
+try {
+  const savedShowQuit = localStorage.getItem('show-quit-btn');
+  if (savedShowQuit === '0') {
+    showQuitBtn.checked = false;
+    quitBtn.style.display = 'none';
+  }
+} catch (e) {
 }
 
 // 初始显示 - 默认5分钟
