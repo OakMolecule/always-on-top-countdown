@@ -40,6 +40,22 @@ body {
   /* 控件可点击 */
 }
 
+.top-bar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-bar button {
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+}
+
 .controls input {
   width: 68px;
   padding: 6px;
@@ -72,4 +88,151 @@ body {
 
 .no-drag {
   -webkit-app-region: no-drag;
+}
+
+.icon-btn {
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  font-size: 13px;
+}
+
+.primary-controls {
+  margin-top: 4px;
+  display: flex;
+  gap: 8px;
+}
+
+.settings-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.settings-card {
+  min-width: 320px;
+  max-width: 480px;
+  padding: 12px 14px 14px;
+  border-radius: 12px;
+  background: rgba(22, 22, 22, 0.96);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  color: var(--text);
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.settings-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.settings-close-btn {
+  border: none;
+  background: transparent;
+  color: var(--text);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.settings-body .controls {
+  flex-wrap: wrap;
+}
+
+.setting-row {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.setting-label {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.color-options {
+  display: flex;
+  gap: 8px;
+}
+
+.color-option {
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+}
+
+.color-option[data-color="#ffffff"] {
+  background: #ffffff;
+}
+
+.color-option[data-color="#ff4b4b"] {
+  background: #ff4b4b;
+}
+
+.color-option[data-color="#4caf50"] {
+  background: #4caf50;
+}
+
+.color-option[data-color="#ff9800"] {
+  background: #ff9800;
+}
+
+.color-option[data-color="#03a9f4"] {
+  background: #03a9f4;
+}
+
+.color-option.active {
+  box-shadow: 0 0 0 2px #fff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* 不同操作系统的微调样式 */
+body.os-mac .settings-card {
+  border-radius: 14px;
+  background: rgba(30, 30, 30, 0.96);
+  backdrop-filter: blur(20px);
+}
+
+body.os-win .settings-card {
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body.os-linux .settings-card {
+  border-radius: 8px;
+}
+
+/* 窗口按钮位置：mac 左上角，win/linux 右上角 */
+body.os-mac .top-bar {
+  flex-direction: row;
+}
+
+body.os-win .top-bar,
+body.os-linux .top-bar {
+  flex-direction: row-reverse;
 }

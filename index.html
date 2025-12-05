@@ -11,22 +11,54 @@
 
 <body>
   <div id="app" class="drag">
-    <div class="controls no-drag">
-      <input id="input-min" type="number" placeholder="分钟" min="0" />
-      <input id="input-sec" type="number" placeholder="秒" />
-      <button id="start-btn">开始</button>
-      <button id="pause-btn">暂停</button>
-      <button id="reset-btn">重置</button>
-      <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
-      <button id="hide-btn">隐藏</button>
+    <div class="top-bar no-drag">
+      <div class="window-actions">
+        <button id="always-btn" class="icon-btn" title="切换置顶">📌</button>
+        <button id="min-btn" class="icon-btn" title="最小化">▁</button>
+        <button id="close-btn" class="icon-btn" title="隐藏窗口">⃝</button>
+        <button id="quit-btn" class="icon-btn" title="退出应用">✕</button>
+      </div>
+      <button id="settings-btn">⚙ 设置</button>
     </div>
 
     <div id="display" class="time no-drag">00:00</div>
+    <div class="primary-controls no-drag">
+      <button id="start-btn" class="icon-btn" title="开始">
+        ▶
+      </button>
+      <button id="pause-btn" class="icon-btn" title="暂停 / 继续">
+        ⏸
+      </button>
+    </div>
+  </div>
 
-    <div class="window-actions no-drag">
-      <button id="always-btn">切换置顶</button>
-      <button id="min-btn">最小化</button>
-      <button id="close-btn">隐藏</button>
+  <!-- 配置页面（覆盖层） -->
+  <div id="settings-overlay" class="settings-overlay no-drag hidden">
+    <div class="settings-card">
+      <div class="settings-header">
+        <span class="settings-title">设置</span>
+        <button id="settings-close-btn" class="settings-close-btn">×</button>
+      </div>
+      <div class="settings-body">
+        <div class="controls">
+          <input id="input-min" type="number" placeholder="分钟" min="0" />
+          <input id="input-sec" type="number" placeholder="秒" />
+          <button id="reset-btn">重置</button>
+          <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
+          <button id="hide-btn">隐藏</button>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">倒计时颜色</span>
+          <div class="color-options">
+            <button class="color-option" data-color="#ffffff" title="白色"></button>
+            <button class="color-option" data-color="#ff4b4b" title="红色"></button>
+            <button class="color-option" data-color="#4caf50" title="绿色"></button>
+            <button class="color-option" data-color="#ff9800" title="橙色"></button>
+            <button class="color-option" data-color="#03a9f4" title="蓝色"></button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

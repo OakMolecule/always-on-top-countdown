@@ -11,12 +11,28 @@ const alwaysBtn = document.getElementById('always-btn');
 const minBtn = document.getElementById('min-btn');
 const closeBtn = document.getElementById('close-btn');
 const hideBtn = document.getElementById('hide-btn');
+const quitBtn = document.getElementById('quit-btn');
+const settingsBtn = document.getElementById('settings-btn');
+const settingsOverlay = document.getElementById('settings-overlay');
+const settingsCloseBtn = document.getElementById('settings-close-btn');
+const colorOptionButtons = document.querySelectorAll('.color-option');
 
 let totalSeconds = 0;
 let remaining = 0;
 let timer = null;
 let running = false;
 let lastSet = 0;
+let displayColor = '#ffffff';
+
+// 根据平台打上不同的 class，方便做细微样式差异
+const ua = navigator.userAgent || '';
+if (/Mac OS X/.test(ua)) {
+  document.body.classList.add('os-mac');
+} else if (/Windows NT/.test(ua)) {
+  document.body.classList.add('os-win');
+} else {
+  document.body.classList.add('os-linux');
+}
 
 function normalizeInputs() {
   let m = parseInt(inputMin.value || '0', 10);
@@ -65,6 +81,12 @@ function computeTotalSeconds() {
 
 function updateDisplay() {
   display.textContent = formatTime(remaining);
+}
+
+function updateDisplaySize() {
+  const base = Math.min(window.innerWidth, window.innerHeight);
+  const size = Math.max(24, Math.min(160, Math.round(base * 0.35)));
+  display.style.fontSize = `${size}px`;
 }
 
 function tick() {
@@ -192,6 +214,67 @@ hideBtn.addEventListener('click', () => {
   }
 });
 
+quitBtn.addEventListener('click', () => {
+  if (window.electronAPI && window.electronAPI.windowAction) {
+    window.electronAPI.windowAction('quit');
+  }
+});
+
+// 打开 / 关闭设置页面
+settingsBtn.addEventListener('click', () => {
+  settingsOverlay.classList.remove('hidden');
+});
+
+settingsCloseBtn.addEventListener('click', () => {
+  settingsOverlay.classList.add('hidden');
+});
+
+// 点击遮罩空白处也关闭
+settingsOverlay.addEventListener('click', (e) => {
+  if (e.target === settingsOverlay) {
+    settingsOverlay.classList.add('hidden');
+  }
+});
+
+// 颜色选择
+function applyDisplayColor(color) {
+  displayColor = color;
+  display.style.color = color;
+  try {
+    localStorage.setItem('countdown-color', color);
+  } catch (e) {
+  }
+}
+
+colorOptionButtons.forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const color = btn.getAttribute('data-color');
+    applyDisplayColor(color);
+    colorOptionButtons.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+
+// 初始化颜色
+try {
+  const saved = localStorage.getItem('countdown-color');
+  if (saved) {
+    applyDisplayColor(saved);
+  } else {
+    applyDisplayColor('#ffffff');
+  }
+} catch (e) {
+  applyDisplayColor('#ffffff');
+}
+
+colorOptionButtons.forEach((btn) => {
+  if (btn.getAttribute('data-color') === displayColor) {
+    btn.classList.add('active');
+  }
+});
+
 // 初始显示
 remaining = 0;
 updateDisplay();
+updateDisplaySize();
+window.addEventListener('resize', updateDisplaySize);

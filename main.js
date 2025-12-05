@@ -5,9 +5,9 @@ let win;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 720,
-    height: 240,
-    minWidth: 720,
+    width: 500,
+    height: 300,
+    minWidth: 360,
     minHeight: 240,
     frame: false,       // 无窗口边框
     transparent: true,  // 透明背景（mac & windows 支持有限）
@@ -55,6 +55,7 @@ ipcMain.on('window-action', (event, action) => {
   if (action === 'close') win.hide();
   if (action === 'toggle-always-on-top')
     win.setAlwaysOnTop(!win.isAlwaysOnTop());
+  if (action === 'quit') app.quit();
 });
 
 app.on('ready', createWindow);
