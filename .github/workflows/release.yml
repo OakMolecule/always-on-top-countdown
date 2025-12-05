@@ -10,7 +10,26 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        include:
+          - os: macos-latest       # Apple Silicon (arm64)
+            target: mac
+            arch: arm64
+            artifact_name: mac-arm64-build
+
+          - os: macos-13           # Intel (x64)
+            target: mac
+            arch: x64
+            artifact_name: mac-x64-build
+
+          - os: windows-latest
+            target: win
+            arch: x64
+            artifact_name: windows-x64-build
+
+          - os: ubuntu-latest
+            target: linux
+            arch: x64
+            artifact_name: linux-x64-build
 
     runs-on: ${{ matrix.os }}
 
@@ -28,10 +47,27 @@ jobs:
 
       - name: Build / Package
         run: |
-          npx electron-builder --${{ matrix.os == 'windows-latest' && 'win' || matrix.os == 'macos-latest' && 'mac' || 'linux' }} --publish=never
+          npx electron-builder --${{ matrix.target }} --${{ matrix.arch }} --publish=never
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-build
+          name: ${{ matrix.artifact_name }}
           path: dist/
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - name: Create GitHub Release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
