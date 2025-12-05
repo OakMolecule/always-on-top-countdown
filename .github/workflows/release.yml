@@ -69,6 +69,9 @@ jobs:
         with:
           path: dist
 
+      - name: show dist
+        run: tree dist
+
       - name: Create GitHub Release and upload assets
         uses: softprops/action-gh-release@v2
         with:
