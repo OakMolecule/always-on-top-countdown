@@ -79,5 +79,6 @@ jobs:
             dist/**/*.AppImage
             dist/**/*.deb
             dist/**/latest*.yml
+            !dist/**/latest.yml
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
