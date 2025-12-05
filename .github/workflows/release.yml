@@ -51,6 +51,7 @@ jobs:
       - name: Build / Package
         run: |
           npx electron-builder --${{ matrix.target }} --${{ matrix.arch }} --publish=never
+          ls -l dist
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
