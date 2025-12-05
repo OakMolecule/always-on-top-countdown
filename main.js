@@ -5,10 +5,10 @@ let win;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 360,
-    height: 120,
-    minWidth: 220,
-    minHeight: 70,
+    width: 720,
+    height: 240,
+    minWidth: 720,
+    minHeight: 240,
     frame: false,               // 无窗口边框
     transparent: true,          // 透明背景（mac & windows 支持有限）
     alwaysOnTop: true,          // 始终置顶
