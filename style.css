@@ -1,63 +1,75 @@
-:root{
-  --bg: rgba(0,0,0,0.45);
+:root {
+  --bg: rgba(0, 0, 0, 0.45);
   --text: #fff;
   --accent: #6ad1ff;
 }
-html,body{
-  margin:0;padding:0;
-  width:100%;height:100%;
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   -webkit-user-select: none;
   background: transparent;
 }
-#app{
-  box-sizing:border-box;
-  width:100%;
-  height:100%;
-  padding:8px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-  align-items:center;
-  justify-content:center;
-  border-radius:10px;
-  background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.35));
-  color:var(--text);
-  -webkit-app-region: drag; /* 整个区域可拖动 */
+
+#app {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35));
+  color: var(--text);
+  -webkit-app-region: drag;
+  /* 整个区域可拖动 */
 }
-.controls{
-  display:flex;
-  gap:6px;
-  align-items:center;
-  -webkit-app-region: no-drag; /* 控件可点击 */
-}
-.controls input{
-  width:68px;
-  padding:6px;
-  border-radius:6px;
-  border:none;
-  outline:none;
-}
-.controls button{
-  padding:6px 8px;
-  border-radius:6px;
-  border:none;
-  cursor:pointer;
-}
-.time{
-  font-size:36px;
-  font-weight:700;
-  padding:8px 16px;
-  border-radius:8px;
-  background: rgba(255,255,255,0.05);
+
+.controls {
+  display: flex;
+  gap: 6px;
+  align-items: center;
   -webkit-app-region: no-drag;
+  /* 控件可点击 */
 }
-.window-actions{
-  display:flex;
-  gap:6px;
-  -webkit-app-region: no-drag;
+
+.controls input {
+  width: 68px;
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
 }
-.no-drag{
+
+.controls button {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.time {
+  font-size: 36px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
   -webkit-app-region: no-drag;
 }
 
+.window-actions {
+  display: flex;
+  gap: 6px;
+  -webkit-app-region: no-drag;
+}
+
+.no-drag {
+  -webkit-app-region: no-drag;
+}
