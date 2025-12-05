@@ -1,6 +1,6 @@
 {
   "name": "always-on-top-countdown",
-  "version": "1.0.0",
+  "version": "1.0.12",
   "description": "Cross-platform always-on-top countdown timer (Electron)",
   "main": "main.js",
   "scripts": {
