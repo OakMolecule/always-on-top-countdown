@@ -43,7 +43,7 @@ body {
 .top-bar {
   width: 100%;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
 }
 
@@ -109,6 +109,12 @@ body {
   margin-top: 4px;
   display: flex;
   gap: 8px;
+}
+
+.primary-controls .icon-btn {
+  width: 36px;
+  height: 36px;
+  font-size: 16px;
 }
 
 .settings-overlay {

@@ -1,21 +1,19 @@
 // 渲染进程脚本
 const inputMin = document.getElementById('input-min');
 const inputSec = document.getElementById('input-sec');
-const startBtn = document.getElementById('start-btn');
-const pauseBtn = document.getElementById('pause-btn');
-const resetBtn = document.getElementById('reset-btn');
+const toggleBtn = document.getElementById('toggle-btn');
 const display = document.getElementById('display');
 const alarm = document.getElementById('alarm');
 const clickThrough = document.getElementById('click-through');
 const alwaysBtn = document.getElementById('always-btn');
 const minBtn = document.getElementById('min-btn');
-const closeBtn = document.getElementById('close-btn');
-const hideBtn = document.getElementById('hide-btn');
 const quitBtn = document.getElementById('quit-btn');
+const resetBtnMain = document.getElementById('reset-btn-main');
 const settingsBtn = document.getElementById('settings-btn');
 const settingsOverlay = document.getElementById('settings-overlay');
 const settingsCloseBtn = document.getElementById('settings-close-btn');
 const colorOptionButtons = document.querySelectorAll('.color-option');
+const bgOpacitySlider = document.getElementById('bg-opacity');
 
 let totalSeconds = 0;
 let remaining = 0;
@@ -89,6 +87,25 @@ function updateDisplaySize() {
   display.style.fontSize = `${size}px`;
 }
 
+function updateToggleButton() {
+  if (running) {
+    // 正在运行，显示暂停
+    toggleBtn.textContent = '⏸';
+    toggleBtn.title = '暂停';
+    resetBtnMain.hidden = true;
+  } else if (remaining > 0) {
+    // 有时间但未运行，显示继续/开始
+    toggleBtn.textContent = '▶';
+    toggleBtn.title = remaining === lastSet ? '开始' : '继续';
+    resetBtnMain.hidden = false;
+  } else {
+    // 没有时间，显示开始
+    toggleBtn.textContent = '▶';
+    toggleBtn.title = '开始';
+    resetBtnMain.hidden = false;
+  }
+}
+
 function tick() {
   if (remaining <= 0) {
     stopTick();
@@ -104,6 +121,7 @@ function startTick() {
   if (remaining <= 0) return;
   running = true;
   timer = setInterval(tick, 1000);
+  updateToggleButton();
 }
 
 function stopTick() {
@@ -112,12 +130,14 @@ function stopTick() {
     clearInterval(timer);
     timer = null;
   }
+  updateToggleButton();
 }
 
 function resetTick() {
   stopTick();
   remaining = lastSet;
   updateDisplay();
+  updateToggleButton();
 }
 
 function onFinish() {
@@ -143,16 +163,16 @@ function onFinish() {
 inputMin.addEventListener('change', (e) => {
   remaining = computeTotalSeconds();
   lastSet = remaining;
-
   updateDisplay();
+  updateToggleButton();
 });
 
 inputSec.addEventListener('change', (e) => {
   normalizeInputs();
   remaining = computeTotalSeconds();
   lastSet = remaining;
-
   updateDisplay();
+  updateToggleButton();
 });
 
 // 使用上下箭头时也实时进位 / 借位，并更新显示
@@ -161,28 +181,30 @@ inputSec.addEventListener('input', (e) => {
   remaining = computeTotalSeconds();
   lastSet = remaining;
   updateDisplay();
+  updateToggleButton();
 });
 
-startBtn.addEventListener('click', () => {
-  normalizeInputs();
-  const m = Math.max(0, parseInt(inputMin.value || '0', 10));
-  const s = Math.max(0, parseInt(inputSec.value || '0', 10));
-  totalSeconds = m * 60 + s;
-  if (totalSeconds <= 0) return;
-  remaining = totalSeconds;
-  lastSet = totalSeconds;
-  updateDisplay();
-  startTick();
-});
-
-pauseBtn.addEventListener('click', () => {
-  if (running)
+// 统一的开始/暂停/继续按钮
+toggleBtn.addEventListener('click', () => {
+  if (running) {
+    // 正在运行 -> 暂停
     stopTick();
-  else
+  } else {
+    // 未运行 -> 开始/继续
+    if (remaining <= 0) {
+      // 没有时间，从输入框读取
+      normalizeInputs();
+      const m = Math.max(0, parseInt(inputMin.value || '0', 10));
+      const s = Math.max(0, parseInt(inputSec.value || '0', 10));
+      totalSeconds = m * 60 + s;
+      if (totalSeconds <= 0) return;
+      remaining = totalSeconds;
+      lastSet = totalSeconds;
+      updateDisplay();
+    }
     startTick();
+  }
 });
-
-resetBtn.addEventListener('click', resetTick);
 
 clickThrough.addEventListener('change', (e) => {
   if (window.electronAPI && window.electronAPI.setIgnoreMouse) {
@@ -202,23 +224,13 @@ minBtn.addEventListener('click', () => {
   }
 });
 
-closeBtn.addEventListener('click', () => {
-  if (window.electronAPI && window.electronAPI.windowAction) {
-    window.electronAPI.windowAction('close');
-  }
-});
-
-hideBtn.addEventListener('click', () => {
-  if (window.electronAPI && window.electronAPI.windowAction) {
-    window.electronAPI.windowAction('close');
-  }
-});
-
 quitBtn.addEventListener('click', () => {
   if (window.electronAPI && window.electronAPI.windowAction) {
     window.electronAPI.windowAction('quit');
   }
 });
+
+resetBtnMain.addEventListener('click', resetTick);
 
 // 打开 / 关闭设置页面
 settingsBtn.addEventListener('click', () => {
@@ -273,8 +285,43 @@ colorOptionButtons.forEach((btn) => {
   }
 });
 
-// 初始显示
-remaining = 0;
+// 背景透明度控制
+const appEl = document.getElementById('app');
+function applyBgOpacity(value) {
+  const alpha = value / 100;
+  const strongAlpha = alpha;
+  const weakAlpha = Math.max(0.2, alpha - 0.2);
+  appEl.style.background = `linear-gradient(180deg, rgba(0, 0, 0, ${
+      strongAlpha}), rgba(0, 0, 0, ${weakAlpha}))`;
+  try {
+    localStorage.setItem('bg-opacity', value);
+  } catch (e) {
+  }
+}
+
+bgOpacitySlider.addEventListener('input', (e) => {
+  applyBgOpacity(e.target.value);
+});
+
+// 初始化背景透明度
+try {
+  const savedOpacity = localStorage.getItem('bg-opacity');
+  if (savedOpacity) {
+    bgOpacitySlider.value = savedOpacity;
+    applyBgOpacity(savedOpacity);
+  } else {
+    applyBgOpacity(55);
+  }
+} catch (e) {
+  applyBgOpacity(55);
+}
+
+// 初始显示 - 默认5分钟
+inputMin.value = '5';
+inputSec.value = '0';
+remaining = 300;  // 5分钟 = 300秒
+lastSet = 300;
 updateDisplay();
 updateDisplaySize();
+updateToggleButton();
 window.addEventListener('resize', updateDisplaySize);

@@ -15,7 +15,6 @@
       <div class="window-actions">
         <button id="always-btn" class="icon-btn" title="切换置顶">📌</button>
         <button id="min-btn" class="icon-btn" title="最小化">▁</button>
-        <button id="close-btn" class="icon-btn" title="隐藏窗口">⃝</button>
         <button id="quit-btn" class="icon-btn" title="退出应用">✕</button>
       </div>
       <button id="settings-btn">⚙ 设置</button>
@@ -23,12 +22,8 @@
 
     <div id="display" class="time no-drag">00:00</div>
     <div class="primary-controls no-drag">
-      <button id="start-btn" class="icon-btn" title="开始">
-        ▶
-      </button>
-      <button id="pause-btn" class="icon-btn" title="暂停 / 继续">
-        ⏸
-      </button>
+      <button id="toggle-btn" class="icon-btn" title="开始">▶</button>
+      <button id="reset-btn-main" class="icon-btn" title="重置">⟲</button>
     </div>
   </div>
 
@@ -43,9 +38,7 @@
         <div class="controls">
           <input id="input-min" type="number" placeholder="分钟" min="0" />
           <input id="input-sec" type="number" placeholder="秒" />
-          <button id="reset-btn">重置</button>
           <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
-          <button id="hide-btn">隐藏</button>
         </div>
 
         <div class="setting-row">
@@ -57,6 +50,11 @@
             <button class="color-option" data-color="#ff9800" title="橙色"></button>
             <button class="color-option" data-color="#03a9f4" title="蓝色"></button>
           </div>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label">背景透明度</span>
+          <input id="bg-opacity" type="range" min="10" max="95" value="55" style="flex: 1;" />
         </div>
       </div>
     </div>
