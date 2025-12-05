@@ -14,6 +14,7 @@ function createWindow() {
     alwaysOnTop: true,          // 始终置顶
     skipTaskbar: false,
     resizable: true,
+    icon: path.join(__dirname, 'logo.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: false,

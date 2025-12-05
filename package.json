@@ -17,6 +17,7 @@
   "build": {
     "appId": "com.example.countdown",
     "productName": "AlwaysOnTopCountdown",
+    "icon": "logo.png",
 
     "win": {
       "target": ["nsis", "portable"]
