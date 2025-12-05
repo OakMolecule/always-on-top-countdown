@@ -6,6 +6,9 @@ on:
       - 'v*'   # 只要 push v1.0.0 这种 tag 就自动构建
   workflow_dispatch:  # 也可以手动触发
 
+permissions:
+  contents: write   # 允许 GitHub Actions 使用 GITHUB_TOKEN 创建 / 更新 Release
+
 jobs:
   build:
     strategy:
