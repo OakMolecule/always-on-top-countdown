@@ -23,7 +23,7 @@
     },
 
     "mac": {
-      "target": ["AppImage", "dmg"]
+      "target": ["dmg", "zip"]
     },
 
     "linux": {
