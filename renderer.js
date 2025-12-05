@@ -24,6 +24,14 @@ function formatTime(sec){
   return `${m}:${s}`;
 }
 
+function computeTotalSeconds(){
+  const m = Math.max(0, parseInt(inputMin.value || '0',10));
+  const s = Math.max(0, parseInt(inputSec.value || '0',10));
+  totalSeconds = m*60 + s;
+  if (totalSeconds <= 0) {return 0;}
+  return totalSeconds;
+}
+
 function updateDisplay(){
   display.textContent = formatTime(remaining);
 }
@@ -71,6 +79,20 @@ function onFinish(){
     if (i>8){ clearInterval(intv); display.style.transform='scale(1)'; }
   }, 160);
 }
+
+inputMin.addEventListener('change', (e)=>{
+  remaining = computeTotalSeconds();
+  lastSet = remaining;
+  
+  updateDisplay();
+});
+
+inputSec.addEventListener('change', (e)=>{
+  remaining = computeTotalSeconds();
+  lastSet = remaining;
+
+  updateDisplay();
+});
 
 startBtn.addEventListener('click', ()=>{
   const m = Math.max(0, parseInt(inputMin.value || '0',10));
