@@ -84,7 +84,7 @@ function updateDisplay() {
 
 function updateDisplaySize() {
   const base = Math.min(window.innerWidth, window.innerHeight);
-  const size = Math.max(24, Math.min(160, Math.round(base * 0.35)));
+  const size = Math.max(12, Math.min(160, Math.round(base * 0.35)));
   display.style.fontSize = `${size}px`;
 }
 
@@ -338,8 +338,11 @@ try {
 try {
   const savedShowQuit = localStorage.getItem('show-quit-btn');
   if (savedShowQuit === '0') {
-    showQuitBtn.checked = false;
+    showQuitBtn.checked = true;
     quitBtn.style.display = 'none';
+  } else {
+    showQuitBtn.checked = false;
+    quitBtn.style.display = '';
   }
 } catch (e) {
 }

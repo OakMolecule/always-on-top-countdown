@@ -5,10 +5,10 @@ let win;
 
 function createWindow() {
   win = new BrowserWindow({
-    width: 500,
-    height: 300,
-    minWidth: 360,
-    minHeight: 240,
+    width: 200,
+    height: 160,
+    minWidth: 150,
+    minHeight: 120,
     frame: false,           // 无窗口边框
     transparent: true,      // 透明背景（mac & windows 支持有限）
     alwaysOnTop: true,      // 始终置顶
@@ -35,7 +35,7 @@ function createWindow() {
   win.loadFile('index.html');
 
   // 可选：开发者工具
-  win.webContents.openDevTools({mode: 'detach'});
+  // win.webContents.openDevTools({mode: 'detach'});
 
   win.on('closed', () => {
     win = null;
