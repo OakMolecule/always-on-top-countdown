@@ -223,7 +223,9 @@ clickThrough.addEventListener('change', (e) => {
 });
 
 showQuitBtn.addEventListener('change', (e) => {
-  if (e.target.checked) {
+  const show = e.target.checked;
+
+  if (show) {
     quitBtn.style.display = '';
     minBtn.style.display = '';
     alwaysBtn.style.display = '';
@@ -234,7 +236,7 @@ showQuitBtn.addEventListener('change', (e) => {
   }
 
   try {
-    localStorage.setItem('show-quit-btn', e.target.checked ? '1' : '0');
+    localStorage.setItem('show-quit-btn', show ? '1' : '0');
   } catch (err) {
   }
 });
@@ -343,17 +345,27 @@ try {
   applyBgOpacity(55);
 }
 
-// 初始化关闭按钮显示状态
+// 初始化关闭按钮显示状态（保持“显示关闭按钮”勾选状态与实际一致）
 try {
   const savedShowQuit = localStorage.getItem('show-quit-btn');
-  if (savedShowQuit === '0') {
-    showQuitBtn.checked = true;
-    quitBtn.style.display = 'none';
-  } else {
-    showQuitBtn.checked = false;
+  const show = savedShowQuit === '1';  // 默认显示
+
+  if (show) {
     quitBtn.style.display = '';
+    minBtn.style.display = '';
+    alwaysBtn.style.display = '';
+  } else {
+    quitBtn.style.display = 'none';
+    minBtn.style.display = 'none';
+    alwaysBtn.style.display = 'none';
   }
+
+  showQuitBtn.checked = show;
 } catch (e) {
+  showQuitBtn.checked = true;
+  quitBtn.style.display = '';
+  minBtn.style.display = '';
+  alwaysBtn.style.display = '';
 }
 
 // 初始显示 - 默认5分钟
