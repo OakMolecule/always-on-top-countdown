@@ -27,8 +27,12 @@ function createWindow() {
     titleBarStyle: 'hidden',
   });
 
-  // 在所有桌面空间都显示（mac）
+  // macOS 专用：隐藏左上角红黄绿按钮，并在所有桌面空间显示
   if (process.platform === 'darwin') {
+    // 隐藏系统红黄绿按钮
+    if (typeof win.setWindowButtonVisibility === 'function') {
+      win.setWindowButtonVisibility(false);
+    }
     win.setVisibleOnAllWorkspaces(true, {visibleOnFullScreen: true});
   }
 
