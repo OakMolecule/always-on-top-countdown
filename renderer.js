@@ -86,6 +86,15 @@ function updateDisplaySize() {
   const base = Math.min(window.innerWidth, window.innerHeight);
   const size = Math.max(12, Math.min(160, Math.round(base * 0.35)));
   display.style.fontSize = `${size}px`;
+
+  // 按钮大小自适应，但不超过当前设计尺寸
+  const btnSize = Math.max(20, Math.min(36, Math.round(base * 0.18)));
+  const primaryBtns = document.querySelectorAll('.primary-controls .icon-btn');
+  primaryBtns.forEach((btn) => {
+    btn.style.width = `${btnSize}px`;
+    btn.style.height = `${btnSize}px`;
+    btn.style.fontSize = `${Math.round(btnSize * 0.45)}px`;
+  });
 }
 
 function updateToggleButton() {
