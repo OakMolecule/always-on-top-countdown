@@ -1,9 +1,10 @@
 {
   "name": "always-on-top-countdown",
-  "version": "1.0.23",
+  "version": "1.0.24",
   "description": "Cross-platform always-on-top countdown timer (Electron)",
   "main": "main.js",
   "scripts": {
+    "dev": "electron .",
     "start": "electron .",
     "pack": "electron-builder --win --mac --linux"
   },
@@ -12,23 +13,29 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "^29.0.0",
-    "electron-builder": "^26.0.12"
+    "electron-builder": "^26.8.1"
   },
   "build": {
     "appId": "com.example.countdown",
     "productName": "AlwaysOnTopCountdown",
     "icon": "logo.png",
-
     "win": {
-      "target": ["nsis", "portable"]
+      "target": [
+        "nsis",
+        "portable"
+      ]
     },
-
     "mac": {
-      "target": ["dmg", "zip"]
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
-
     "linux": {
-      "target": ["AppImage", "deb"],
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "maintainer": "AlwaysOnTopCountdown <vpasfd@139.com>"
     }
   }
