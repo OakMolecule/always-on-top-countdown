@@ -65,6 +65,28 @@ ipcMain.on('window-action', (event, action) => {
   if (action === 'quit') app.quit();
 });
 
+let previousBounds = null;
+
+// 动态调整窗口尺寸以适应内部展开的面板
+ipcMain.on('set-window-size', (event, { width, height, isExpanding }) => {
+  if (!win || win.isDestroyed()) return;
+  
+  if (isExpanding) {
+    // 只有在第一次展开时，才记录当前的正常尺寸
+    if (!previousBounds) previousBounds = win.getBounds();
+    const current = win.getBounds();
+    const newWidth = Math.max(current.width, width);
+    const newHeight = Math.max(current.height, height);
+    win.setSize(newWidth, newHeight, true); // true 为启用动画（macOS 有效）
+  } else {
+    // 折叠面板时，恢复到之前的尺寸
+    if (previousBounds) {
+      win.setBounds(previousBounds, true);
+      previousBounds = null;
+    }
+  }
+});
+
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {

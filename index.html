@@ -10,53 +10,96 @@
 </head>
 
 <body>
-  <div id="app" class="drag">
+  <div id="app">
     <div class="top-bar">
       <div class="window-actions">
-        <button id="always-btn" class="icon-btn" title="切换置顶">📌</button>
-        <button id="min-btn" class="icon-btn" title="最小化">▁</button>
-        <button id="quit-btn" class="icon-btn" title="退出应用">✕</button>
+        <button id="always-btn" class="wbtn no-drag" title="切换置顶">📌</button>
+        <button id="min-btn" class="wbtn no-drag" title="最小化">▁</button>
+        <button id="quit-btn" class="wbtn no-drag" title="退出应用">✕</button>
       </div>
     </div>
 
-    <div id="display" class="time no-drag">00:00</div>
-    <div class="primary-controls no-drag">
-      <button id="settings-btn" class="icon-btn" title="设置">⚙</button>
-      <button id="toggle-btn" class="icon-btn" title="开始">▶</button>
-      <button id="reset-btn-main" class="icon-btn" title="重置">⟲</button>
-    </div>
-  </div>
+    <div class="content-wrapper">
+      <button id="display" class="time no-drag" title="点击设置时间">05:00</button>
 
-  <!-- 配置页面（覆盖层） -->
-  <div id="settings-overlay" class="settings-overlay no-drag hidden">
-    <div class="settings-card">
-      <div class="settings-header">
-        <span class="settings-title">设置</span>
-        <button id="settings-close-btn" class="settings-close-btn">×</button>
+      <div class="progress-track no-drag" aria-hidden="true">
+        <div id="progress-bar" class="progress-bar"></div>
       </div>
-      <div class="settings-body">
-        <div class="controls">
-          <input id="input-min" type="number" placeholder="分钟" min="0" />
-          <input id="input-sec" type="number" placeholder="秒" />
-          <label><input id="click-through" type="checkbox"> 穿透（允许点击底层）</label>
-          <label><input id="show-quit-btn" type="checkbox" checked> 显示关闭按钮</label>
+
+      <!-- 内联时间设置面板 -->
+      <div id="time-panel" class="inline-panel hidden no-drag">
+        <div class="panel-title">设置时间</div>
+        <div class="time-edit-row">
+          <div class="time-edit-group">
+            <span class="time-edit-label">分钟</span>
+            <input id="input-min" class="time-edit-input" type="number" min="0" value="5">
+          </div>
+          <span class="time-edit-colon">:</span>
+          <div class="time-edit-group">
+            <span class="time-edit-label">秒</span>
+            <input id="input-sec" class="time-edit-input" type="number" min="0" max="59" value="0">
+          </div>
+        </div>
+        <div class="panel-btns">
+          <button id="apply-time-btn" class="btn-primary">确认</button>
+          <button id="cancel-time-btn" class="btn-secondary">取消</button>
+        </div>
+      </div>
+
+      <!-- 内联样式设置面板 -->
+      <div id="settings-panel" class="inline-panel hidden no-drag">
+        <div class="panel-title">样式设置</div>
+
+        <div class="setting-section">
+          <div class="setting-section-label">背景透明度: <span id="bg-opacity-value">95%</span></div>
+          <input id="bg-opacity" class="opacity-slider" type="range" min="0" max="100" value="95">
         </div>
 
-        <div class="setting-row setting-row-vertical">
-          <span class="setting-label">倒计时颜色</span>
+        <div class="setting-section">
+          <div class="setting-section-label">倒计时颜色</div>
           <div class="color-options">
-            <button class="color-option" data-color="#ffffff" title="白色"></button>
-            <button class="color-option" data-color="#ff4b4b" title="红色"></button>
-            <button class="color-option" data-color="#4caf50" title="绿色"></button>
-            <button class="color-option" data-color="#ff9800" title="橙色"></button>
-            <button class="color-option" data-color="#03a9f4" title="蓝色"></button>
+            <button class="color-option" data-color="#ffffff" style="background:#ffffff;color:#1e293b">白色</button>
+            <button class="color-option" data-color="#3b82f6" style="background:#3b82f6;color:#fff">蓝色</button>
+            <button class="color-option" data-color="#22c55e" style="background:#22c55e;color:#fff">绿色</button>
+            <button class="color-option" data-color="#facc15" style="background:#facc15;color:#1e293b">黄色</button>
+            <button class="color-option" data-color="#fb923c" style="background:#fb923c;color:#fff">橙色</button>
+            <button class="color-option" data-color="#ec4899" style="background:#ec4899;color:#fff">粉色</button>
+            <button class="color-option" data-color="#a855f7" style="background:#a855f7;color:#fff">紫色</button>
+            <button class="color-option" data-color="#06b6d4" style="background:#06b6d4;color:#fff">青色</button>
+          </div>
+          <div class="custom-color-row">
+            <input id="custom-color-picker" type="color" value="#ffffff" title="颜色选择器">
+            <input id="custom-color-hex" type="text" value="#ffffff" maxlength="7" placeholder="#ffffff">
           </div>
         </div>
 
-        <div class="setting-row setting-row-vertical">
-          <span class="setting-label">背景透明度</span>
-          <input id="bg-opacity" type="range" min="10" max="95" value="55" style="flex: 1;" />
+        <div class="setting-section">
+          <div class="setting-section-label">
+            快捷时间 <span class="section-hint">最多 6 个</span>
+          </div>
+          <div id="preset-list" class="preset-list"></div>
+          <div id="add-preset-form" class="add-preset-form hidden">
+            <input id="preset-input-min" class="preset-mini-input" type="number" min="0" placeholder="分">
+            <span class="colon-text">:</span>
+            <input id="preset-input-sec" class="preset-mini-input" type="number" min="0" max="59" placeholder="秒">
+            <button id="save-preset-btn" class="btn-mini-primary">保存</button>
+            <button id="cancel-preset-btn" class="btn-mini-secondary">✕</button>
+          </div>
         </div>
+
+        <div class="setting-section setting-toggles">
+          <label class="setting-toggle"><input id="click-through" type="checkbox"> 穿透模式</label>
+          <label class="setting-toggle"><input id="show-quit-btn" type="checkbox"> 窗口按钮</label>
+        </div>
+
+        <button id="settings-close-btn" class="btn-full">关闭</button>
+      </div>
+
+      <!-- 主控按钮 -->
+      <div class="primary-controls no-drag">
+        <button id="toggle-btn" class="icon-btn btn-play" title="开始">▶</button>
+        <button id="reset-btn-main" class="icon-btn" title="重置">⟲</button>
+        <button id="settings-btn" class="icon-btn" title="设置">⚙</button>
       </div>
     </div>
   </div>
