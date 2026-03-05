@@ -58,6 +58,12 @@ ipcMain.on('window-action', (event, action, payload) => {
   if (action === 'quit') app.quit();
 });
 
+ipcMain.on('open-devtools', () => {
+  if (win && !win.isDestroyed()) win.webContents.openDevTools({ mode: 'detach' });
+});
+
+ipcMain.handle('get-version', () => app.getVersion());
+
 let previousBounds = null;
 
 // 动态调整窗口尺寸以适应内部展开的面板

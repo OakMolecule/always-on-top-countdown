@@ -36,6 +36,8 @@ const showProgressToggle = document.getElementById('show-progress-toggle');
 const alwaysOnTopToggle  = document.getElementById('always-on-top-toggle');
 const quitAppBtn         = document.getElementById('quit-app-btn');
 const settingsCloseBtn   = document.getElementById('settings-close-btn');
+const openDevtoolsBtn    = document.getElementById('open-devtools-btn');
+const appVersionEl       = document.getElementById('app-version');
 
 // ── State ─────────────────────────────────────────────────────────────────────
 let timer         = null;
@@ -411,6 +413,8 @@ alwaysOnTopToggle.addEventListener('change', e => {
 quitAppBtn.addEventListener('click', () => window.electronAPI?.windowAction?.('quit'));
 quitBtn.addEventListener('click', () => window.electronAPI?.windowAction?.('quit'));
 
+openDevtoolsBtn.addEventListener('click', () => window.electronAPI?.openDevTools?.());
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 try {
   const c = localStorage.getItem('countdown-color');
@@ -466,3 +470,7 @@ try {
 renderPresets();
 updateDisplaySize();
 updateUI();
+
+window.electronAPI?.getVersion?.().then((v) => {
+  if (appVersionEl && v) appVersionEl.textContent = `v${v}`;
+}).catch(() => {});
