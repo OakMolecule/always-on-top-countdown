@@ -46,22 +46,15 @@ function createWindow() {
   });
 }
 
-// 接收渲染进程请求设置 点击穿透（忽略鼠标）或取消
-ipcMain.on('set-ignore-mouse', (event, ignore) => {
-  if (win && !win.isDestroyed()) {
-    // 第二个参数可为 { forward: true } 使鼠标事件传递到下面的窗口（windows
-    // 支持）
-    win.setIgnoreMouseEvents(ignore, {forward: true});
-  }
-});
-
 // 接收最小化 / 关闭 等动作
-ipcMain.on('window-action', (event, action) => {
+ipcMain.on('window-action', (event, action, payload) => {
   if (!win || win.isDestroyed()) return;
   if (action === 'minimize') win.minimize();
   if (action === 'close') win.hide();
   if (action === 'toggle-always-on-top')
     win.setAlwaysOnTop(!win.isAlwaysOnTop());
+  if (action === 'set-always-on-top')
+    win.setAlwaysOnTop(Boolean(payload));
   if (action === 'quit') app.quit();
 });
 

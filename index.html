@@ -11,18 +11,10 @@
 
 <body>
   <div id="app">
-    <div class="top-bar">
-      <div class="window-actions">
-        <button id="always-btn" class="wbtn no-drag" title="切换置顶">📌</button>
-        <button id="min-btn" class="wbtn no-drag" title="最小化">▁</button>
-        <button id="quit-btn" class="wbtn no-drag" title="退出应用">✕</button>
-      </div>
-    </div>
-
     <div class="content-wrapper">
       <button id="display" class="time no-drag" title="点击设置时间">05:00</button>
 
-      <div class="progress-track no-drag" aria-hidden="true">
+      <div id="progress-track-wrapper" class="progress-track no-drag" aria-hidden="true">
         <div id="progress-bar" class="progress-bar"></div>
       </div>
 
@@ -44,36 +36,8 @@
           <button id="apply-time-btn" class="btn-primary">确认</button>
           <button id="cancel-time-btn" class="btn-secondary">取消</button>
         </div>
-      </div>
 
-      <!-- 内联样式设置面板 -->
-      <div id="settings-panel" class="inline-panel hidden no-drag">
-        <div class="panel-title">样式设置</div>
-
-        <div class="setting-section">
-          <div class="setting-section-label">背景透明度: <span id="bg-opacity-value">95%</span></div>
-          <input id="bg-opacity" class="opacity-slider" type="range" min="0" max="100" value="95">
-        </div>
-
-        <div class="setting-section">
-          <div class="setting-section-label">倒计时颜色</div>
-          <div class="color-options">
-            <button class="color-option" data-color="#ffffff" style="background:#ffffff;color:#1e293b">白色</button>
-            <button class="color-option" data-color="#3b82f6" style="background:#3b82f6;color:#fff">蓝色</button>
-            <button class="color-option" data-color="#22c55e" style="background:#22c55e;color:#fff">绿色</button>
-            <button class="color-option" data-color="#facc15" style="background:#facc15;color:#1e293b">黄色</button>
-            <button class="color-option" data-color="#fb923c" style="background:#fb923c;color:#fff">橙色</button>
-            <button class="color-option" data-color="#ec4899" style="background:#ec4899;color:#fff">粉色</button>
-            <button class="color-option" data-color="#a855f7" style="background:#a855f7;color:#fff">紫色</button>
-            <button class="color-option" data-color="#06b6d4" style="background:#06b6d4;color:#fff">青色</button>
-          </div>
-          <div class="custom-color-row">
-            <input id="custom-color-picker" type="color" value="#ffffff" title="颜色选择器">
-            <input id="custom-color-hex" type="text" value="#ffffff" maxlength="7" placeholder="#ffffff">
-          </div>
-        </div>
-
-        <div class="setting-section">
+        <div class="setting-section" style="margin-top: 14px; margin-bottom: 0;">
           <div class="setting-section-label">
             快捷时间 <span class="section-hint">最多 6 个</span>
           </div>
@@ -86,13 +50,49 @@
             <button id="cancel-preset-btn" class="btn-mini-secondary">✕</button>
           </div>
         </div>
+      </div>
 
-        <div class="setting-section setting-toggles">
-          <label class="setting-toggle"><input id="click-through" type="checkbox"> 穿透模式</label>
-          <label class="setting-toggle"><input id="show-quit-btn" type="checkbox"> 窗口按钮</label>
+      <!-- 内联样式设置面板 -->
+      <div id="settings-panel" class="inline-panel hidden no-drag">
+        <div class="panel-title">设置</div>
+
+        <div class="setting-section">
+          <div class="setting-section-label">背景透明度: <span id="bg-opacity-value">95%</span></div>
+          <input id="bg-opacity" class="opacity-slider" type="range" min="0" max="100" value="95">
         </div>
 
-        <button id="settings-close-btn" class="btn-full">关闭</button>
+        <div class="setting-section">
+          <div class="setting-section-label">倒计时颜色</div>
+          <div class="color-section-label">默认颜色</div>
+          <div id="default-colors" class="color-options color-options-default">
+            <button type="button" class="color-option" data-color="#ffffff" style="background:#ffffff" title="白色"></button>
+            <button type="button" class="color-option" data-color="#3b82f6" style="background:#3b82f6" title="蓝色"></button>
+            <button type="button" class="color-option" data-color="#22c55e" style="background:#22c55e" title="绿色"></button>
+            <button type="button" class="color-option" data-color="#eab308" style="background:#eab308" title="黄色"></button>
+            <button type="button" class="color-option" data-color="#f97316" style="background:#f97316" title="橙色"></button>
+            <button type="button" class="color-option" data-color="#ec4899" style="background:#ec4899" title="粉色"></button>
+            <button type="button" class="color-option" data-color="#a855f7" style="background:#a855f7" title="紫色"></button>
+            <button type="button" class="color-option" data-color="#06b6d4" style="background:#06b6d4" title="青色"></button>
+          </div>
+          <div id="custom-colors-section" class="custom-colors-section hidden">
+            <div class="color-section-label">自定义颜色</div>
+            <div id="custom-colors-list" class="custom-colors-list"></div>
+          </div>
+          <div class="color-section-label">颜色选择器 <span class="section-hint">最多 4 个</span></div>
+          <div class="custom-color-row">
+            <input id="custom-color-picker" type="color" value="#ffffff" title="颜色选择器">
+            <input id="custom-color-hex" type="text" value="#ffffff" maxlength="7" placeholder="#ffffff">
+            <button type="button" id="add-custom-color-btn" class="btn-add-color">添加</button>
+          </div>
+        </div>
+
+        <div class="setting-section setting-toggles">
+          <label class="setting-toggle"><input id="show-progress-toggle" type="checkbox" checked> 显示进度条</label>
+          <label class="setting-toggle"><input id="always-on-top-toggle" type="checkbox" checked> 始终置顶</label>
+        </div>
+
+        <button id="quit-app-btn" class="btn-full" style="background: rgba(239, 68, 68, 0.15); color: #ef4444; border-color: rgba(239, 68, 68, 0.3); margin-bottom: 8px;">退出应用</button>
+        <button id="settings-close-btn" class="btn-full" style="margin-top: 0;">关闭</button>
       </div>
 
       <!-- 主控按钮 -->
@@ -100,6 +100,7 @@
         <button id="toggle-btn" class="icon-btn btn-play" title="开始">▶</button>
         <button id="reset-btn-main" class="icon-btn" title="重置">⟲</button>
         <button id="settings-btn" class="icon-btn" title="设置">⚙</button>
+        <button id="quit-btn" class="icon-btn icon-btn-quit" title="退出">✕</button>
       </div>
     </div>
   </div>

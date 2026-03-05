@@ -20,7 +20,6 @@ A minimalist, cross-platform countdown timer that stays on top of all windows. B
   - Toggle always-on-top mode
   - Minimize to taskbar
   - Optional window controls (can be hidden)
-- **Click-through Mode**: Allow mouse clicks to pass through to windows below
 - **Side Panel Settings**: Non-intrusive settings panel that slides in from the right
 - **Cross-Platform**: Works on Windows, macOS, and Linux
 
@@ -118,13 +117,11 @@ npm run pack
 - **Dragging**: Click and drag the empty space at the top to move the window
 - **Resizing**: Drag the window edges to resize (min: 150×120, default: 200×160)
 - **Quick Settings**: The settings panel remembers your preferences
-- **Click-through**: Enable this to interact with windows behind the timer
 - **Keyboard**: Use Tab to navigate between input fields
 
 ## 🐛 Known Issues
 
 - On some Linux systems, window transparency may not work properly
-- macOS: Requires accessibility permissions for click-through mode
 
 ## 📝 License
 
